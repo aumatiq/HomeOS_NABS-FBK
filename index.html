@@ -172,10 +172,13 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
 
 .header-right { display: flex; align-items: center; gap: 8px; }
 
-.header-dates { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; font-family: var(--font-en); }
-.header-dates .greg { font-size: 11px; color: var(--gold); font-weight: 700; }
-.header-dates .alt-dates { font-size: 9px; color: var(--sil2); display: flex; gap: 6px; }
-.header-dates .clock-time { font-size: 10px; color: var(--sil); }
+.header-dates { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-family: var(--font-en); }
+.header-dates .clock-time { font-family: var(--font-h); font-size: 21px; font-weight: 800; color: var(--gold); letter-spacing: 0.5px; line-height: 1.1; }
+.header-dates .greg { font-size: 11px; color: var(--wht); font-weight: 600; letter-spacing: 0.2px; }
+.header-dates .alt-dates { font-size: 10px; color: var(--sil); display: flex; gap: 5px; align-items: center; flex-wrap: wrap; justify-content: flex-end; max-width: 190px; text-align: right; line-height: 1.4; }
+.header-dates .alt-dates .bn-cal { font-family: var(--font-bn); }
+.header-dates .alt-dates .hijri-cal { font-family: var(--font-bn); }
+.header-dates .alt-dates .sep { color: var(--sil2); }
 
 .sync-btn {
   background: rgba(79,70,229,0.12); border: 1px solid var(--bd); border-radius: 8px;
@@ -543,49 +546,7 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
 .doc-cat-tab .dct-edit { opacity:0.6; font-size:10px; }
 .doc-cat-tab .dct-edit:hover { opacity:1; }
 
-/* ══════════════════════════════════════════════════════
-   NEWS TAB
-   ══════════════════════════════════════════════════════ */
-.news-refresh-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; gap:10px; flex-wrap:wrap; }
-.news-refresh-btn {
-  display:flex; align-items:center; gap:8px;
-  background:linear-gradient(135deg,var(--ind),var(--ind2));
-  color:#fff; border:none; border-radius:10px;
-  padding:11px 22px; font-family:var(--font-bn); font-weight:700; font-size:14px;
-  cursor:pointer; transition:all 0.2s;
-  box-shadow:0 6px 20px rgba(79,70,229,0.3);
-}
-.news-refresh-btn:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(79,70,229,0.45); }
-.news-refresh-btn .spin-icon { display:inline-block; transition:transform 0.5s; }
-.news-refresh-btn.loading .spin-icon { animation:spin 1s linear infinite; }
 
-.news-cat-pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
-.news-pill { padding:7px 16px; border-radius:20px; background:var(--blk2); border:1px solid var(--bd); font-size:12.5px; font-weight:600; color:var(--sil); cursor:pointer; transition:all 0.2s; }
-.news-pill:hover { border-color:var(--ind); color:var(--wht); }
-.news-pill.active { background:linear-gradient(135deg,var(--gold),var(--gold2)); color:var(--blk); border-color:transparent; }
-
-.news-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-bottom:32px; }
-.news-card { background:var(--blk2); border:1px solid var(--bd); border-radius:var(--r2); overflow:hidden; transition:all 0.25s; cursor:pointer; display:flex; flex-direction:column; }
-.news-card:hover { border-color:var(--bd2); transform:translateY(-4px); box-shadow:0 16px 40px rgba(79,70,229,0.15); }
-.news-thumb { width:100%; aspect-ratio:16/9; background:linear-gradient(135deg,var(--blk3),var(--blk4)); position:relative; overflow:hidden; }
-.news-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-.news-thumb-fallback { display:flex; align-items:center; justify-content:center; height:100%; font-size:36px; opacity:0.3; }
-.news-source-badge { position:absolute; top:8px; left:8px; background:rgba(10,10,15,0.85); backdrop-filter:blur(4px); color:var(--gold); font-size:10px; font-weight:700; padding:3px 9px; border-radius:6px; letter-spacing:0.5px; }
-.news-card-body { padding:14px 16px; flex:1; display:flex; flex-direction:column; }
-.news-card-title { font-size:13.5px; font-weight:700; line-height:1.4; margin-bottom:8px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
-.news-card-meta { font-size:11px; color:var(--sil2); margin-top:auto; display:flex; align-items:center; gap:6px; }
-
-.news-section-title { font-family:var(--font-h); font-size:17px; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-
-.yt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
-.yt-card { background:var(--blk2); border:1px solid var(--bd); border-radius:var(--r); overflow:hidden; cursor:pointer; transition:all 0.2s; }
-.yt-card:hover { border-color:rgba(239,68,68,0.4); transform:translateY(-3px); }
-.yt-thumb { width:100%; aspect-ratio:16/9; position:relative; background:var(--blk3); }
-.yt-thumb img { width:100%; height:100%; object-fit:cover; }
-.yt-play-icon { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:32px; color:rgba(255,255,255,0.9); text-shadow:0 2px 8px rgba(0,0,0,0.6); }
-.yt-card-body { padding:10px 12px; }
-.yt-card-title { font-size:12px; font-weight:600; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.yt-card-channel { font-size:10.5px; color:var(--sil2); margin-top:4px; }
 
 /* ══════════════════════════════════════════════════════
    SETTINGS
@@ -635,15 +596,28 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
   .stat-value { font-size:22px; }
   .month-banner .amount { font-size:26px; }
   .modal { border-radius:var(--r) var(--r) 0 0; }
-  .header-dates .alt-dates { display:none; }
+  .header-dates .clock-time { font-size:18px; }
+  .header-dates .greg { font-size:10px; }
+  .header-dates .alt-dates { font-size:9px; max-width:150px; gap:4px; }
 }
 @media(max-width:480px) {
-  .app-header { padding:10px 14px; }
+  .app-header { padding:9px 12px; gap:8px; }
   .header-logo-icon { width:32px; height:32px; font-size:15px; }
-  .header-title .name { font-size:13px; }
-  .search-input { width:130px; }
-  .search-input:focus { width:170px; }
-  .header-dates .greg { font-size:10px; }
+  .header-title .name { font-size:12.5px; }
+  .header-title .sub { font-size:8px; }
+  .search-input { width:110px; }
+  .search-input:focus { width:150px; }
+  .header-dates .clock-time { font-size:16px; }
+  .header-dates .greg { font-size:9px; }
+  .header-dates .alt-dates { font-size:8.5px; max-width:130px; }
+  .header-right { gap:6px; }
+}
+@media(max-width:375px) {
+  .app-header { padding:8px 10px; }
+  .header-title .sub { display:none; }
+  .header-dates .clock-time { font-size:15px; }
+  .header-dates .greg { font-size:8.5px; }
+  .header-dates .alt-dates { font-size:8px; max-width:118px; }
 }
 </style>
 </head>
@@ -736,9 +710,9 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
   </a>
   <div class="header-right">
     <div class="header-dates">
-      <div class="greg" id="headerGreg">—</div>
-      <div class="alt-dates"><span id="headerBangla">—</span> · <span id="headerHijri">—</span></div>
       <div class="clock-time" id="headerTime">—</div>
+      <div class="greg en" id="headerGreg">—</div>
+      <div class="alt-dates"><span class="bn-cal" id="headerBangla">—</span><span class="sep">·</span><span class="hijri-cal" id="headerHijri">—</span></div>
     </div>
     <div class="backend-status" id="backendStatus">
       <div class="status-dot" id="statusDot"></div>
@@ -774,14 +748,8 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
     <button class="tab-btn" data-tab="docs">
       <span class="tab-icon">📄</span> Documents
     </button>
-    <button class="tab-btn" data-tab="news">
-      <span class="tab-icon">📰</span> News
-    </button>
     <button class="tab-btn" data-tab="settings">
       <span class="tab-icon">⚙️</span> Settings
-    </button>
-    <button class="tab-btn add-tab-btn" onclick="openAddTabModal()" title="নতুন Tab যোগ করো">
-      <span class="tab-icon">＋</span> Add Tab
     </button>
   </nav>
 </div>
@@ -1243,39 +1211,6 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
   <!-- END DOCS -->
 
 
-  <!-- ══════════════════════════════════
-       TAB: NEWS (New)
-       ══════════════════════════════════ -->
-  <div class="tab-panel" id="tab-news">
-
-    <div class="news-refresh-bar">
-      <h2 style="font-size:20px;display:flex;align-items:center;gap:8px">📰 News &amp; Updates</h2>
-      <button class="news-refresh-btn" id="newsRefreshBtn" onclick="refreshNews()">
-        <span class="spin-icon">🔄</span> Refresh News
-      </button>
-    </div>
-
-    <div class="news-cat-pills" id="newsCatPills">
-      <div class="news-pill active" data-cat="all" onclick="setNewsCategory('all',this)">🌐 সব</div>
-    </div>
-
-    <div class="news-section-title">🌍 International</div>
-    <div class="news-grid" id="newsGridIntl">
-      <div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📰</div><p>Refresh চাপুন নিউজ লোড করতে</p></div>
-    </div>
-
-    <div class="news-section-title">🇧🇩 বাংলাদেশ</div>
-    <div class="news-grid" id="newsGridBD">
-      <div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📰</div><p>Refresh চাপুন নিউজ লোড করতে</p></div>
-    </div>
-
-    <div class="news-section-title">▶️ Suggested Videos</div>
-    <div class="yt-grid" id="ytGrid">
-      <div class="empty-state" style="grid-column:1/-1"><p>YouTube API key Settings-এ যোগ করুন</p></div>
-    </div>
-  </div>
-  <!-- END NEWS -->
-
 
   <!-- ══════════════════════════════════
        TAB: SETTINGS
@@ -1433,28 +1368,6 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
         </div>
 
         <button class="btn btn-primary btn-sm" onclick="saveEmailSettings()">💾 Email Settings সেভ করো</button>
-      </div>
-    </div>
-
-    <!-- News & YouTube -->
-    <div class="settings-section">
-      <h3>📰 News &amp; YouTube Configuration</h3>
-      <div class="card">
-        <p style="font-size:12px;color:var(--sil);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">News Source Categories</p>
-        <div id="newsCatManageList" class="manage-chip-list"></div>
-        <div style="display:flex;gap:6px;margin-bottom:18px">
-          <input type="text" class="form-input" id="newNewsCat" placeholder="নতুন ক্যাটাগরি (যেমন: Technology, Sports)" style="font-size:13px;padding:8px 12px">
-          <button class="btn btn-ghost btn-sm" onclick="addNewsCategory()">+ যোগ</button>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">YouTube Data API Key</label>
-          <input type="text" class="form-input en" id="youtubeApiKey" placeholder="AIzaSy...">
-          <p class="settings-row-desc" style="margin-top:6px">Google Cloud Console → APIs &amp; Services → Credentials থেকে ফ্রিতে তৈরি করুন (দৈনিক ~১০০ search limit)</p>
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="saveNewsSettings()">💾 News Settings সেভ করো</button>
       </div>
     </div>
 
@@ -1758,6 +1671,29 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
   </div>
 </div>
 
+<!-- DOCUMENT PREVIEW MODAL (view / download / print) -->
+<div class="modal-overlay" id="docPreviewModal">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-header">
+      <h3 id="docPreviewTitle" style="font-size:15px;line-height:1.4;max-width:80%">📄 Document Preview</h3>
+      <button class="modal-close" onclick="closeModal('docPreviewModal')">✕</button>
+    </div>
+    <div class="modal-body" style="gap:12px">
+      <div id="docPreviewMeta" style="font-size:12px;color:var(--sil)"></div>
+      <div id="docPreviewFileArea" style="display:none;background:var(--blk3);border-radius:12px;overflow:hidden;border:1px solid var(--bd);min-height:320px">
+        <iframe id="docPreviewIframe" style="width:100%;height:420px;border:none;display:block" title="Document preview"></iframe>
+      </div>
+      <div id="docPreviewNoFile" style="display:none;text-align:center;padding:24px;color:var(--sil);font-size:13px">এই document-এ কোনো ফাইল সংযুক্ত নেই, শুধু লেখা তথ্য।</div>
+      <div id="docPreviewContent" style="font-size:14px;color:var(--wht);line-height:1.8;white-space:pre-wrap;background:var(--blk3);border-radius:10px;padding:14px 16px"></div>
+    </div>
+    <div class="modal-footer" style="gap:8px;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="closeModal('docPreviewModal')">বন্ধ করুন</button>
+      <button class="btn btn-ghost" id="docPreviewPrintBtn" onclick="printCurrentPreviewDoc()">🖨️ Print</button>
+      <a class="btn btn-primary" id="docPreviewDownloadBtn" href="#" target="_blank" style="display:none">⬇️ Download</a>
+    </div>
+  </div>
+</div>
+
 <!-- MANAGE DOC CATEGORIES MODAL -->
 <div class="modal-overlay" id="manageDocCategoriesModal">
   <div class="modal" style="max-width:460px">
@@ -1797,66 +1733,6 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('addTabModal')">বাতিল</button>
       <button class="btn btn-primary" onclick="saveCustomTab()">➕ Tab যোগ করুন</button>
-    </div>
-  </div>
-</div>
-
-<!-- ENTRY CONFIRM MODAL -->
-<div class="modal-overlay" id="entryConfirmModal">
-  <div class="modal" style="max-width:480px">
-    <div class="modal-header">
-      <h3 id="ecmTitle">✅ এন্ট্রি নিশ্চিত করুন</h3>
-      <button class="modal-close" onclick="closeModal('entryConfirmModal')">✕</button>
-    </div>
-    <div class="modal-body" style="gap:0;padding:20px 24px">
-
-      <!-- Type badge -->
-      <div style="text-align:center;margin-bottom:20px">
-        <div id="ecmTypeBadge" style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:20px;font-size:14px;font-weight:700"></div>
-      </div>
-
-      <!-- Amount (big display) -->
-      <div id="ecmAmountBox" style="background:var(--blk3);border-radius:16px;padding:24px;text-align:center;margin-bottom:16px;border:2px solid var(--bd)">
-        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sil);margin-bottom:8px">পরিমাণ</div>
-        <div id="ecmAmount" style="font-family:var(--font-h);font-size:44px;font-weight:800;line-height:1"></div>
-      </div>
-
-      <!-- Detail rows -->
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--blk3);border-radius:10px">
-          <span style="font-size:13px;color:var(--sil)">📂 ক্যাটাগরি</span>
-          <span id="ecmCategory" style="font-size:14px;font-weight:600"></span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--blk3);border-radius:10px">
-          <span style="font-size:13px;color:var(--sil)">📅 তারিখ</span>
-          <span id="ecmDate" class="en" style="font-size:14px;font-weight:600"></span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--blk3);border-radius:10px">
-          <span style="font-size:13px;color:var(--sil)">👤 সদস্য</span>
-          <span id="ecmMember" style="font-size:14px;font-weight:600"></span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--blk3);border-radius:10px">
-          <span style="font-size:13px;color:var(--sil)">💳 Payment Method</span>
-          <span id="ecmPayment" class="en" style="font-size:14px;font-weight:600"></span>
-        </div>
-        <div id="ecmNoteRow" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:11px 16px;background:var(--blk3);border-radius:10px">
-          <span style="font-size:13px;color:var(--sil);flex-shrink:0">📝 বিবরণ</span>
-          <span id="ecmNote" style="font-size:13px;color:var(--wht);text-align:right;line-height:1.5"></span>
-        </div>
-      </div>
-
-      <!-- Warning line -->
-      <div style="text-align:center;font-size:12px;color:var(--sil2);padding:8px 0">
-        সব তথ্য সঠিক থাকলে নিচে <strong style="color:var(--green)">সংরক্ষণ করুন</strong> চাপুন।
-      </div>
-    </div>
-    <div class="modal-footer" style="gap:10px">
-      <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeModal('entryConfirmModal')">
-        ✏️ আবার এডিট করুন
-      </button>
-      <button class="btn btn-primary" style="flex:1;justify-content:center" id="ecmSaveBtn" onclick="confirmSaveEntry()">
-        💾 সংরক্ষণ করুন
-      </button>
     </div>
   </div>
 </div>
@@ -1924,28 +1800,10 @@ h1, h2, h3, h4 { font-family: var(--font-h); font-weight: 700; }
   </div>
 </div>
 
-<!-- NEWS ARTICLE MODAL -->
-<div class="modal-overlay" id="newsModal">
-  <div class="modal" style="max-width:640px">
-    <div class="modal-header">
-      <h3 id="newsModalTitle" style="font-size:15px;line-height:1.4;max-width:90%"></h3>
-      <button class="modal-close" onclick="closeModal('newsModal')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div style="font-size:12px;color:var(--sil);margin-bottom:12px" id="newsModalMeta"></div>
-      <div style="font-size:14px;color:var(--sil);line-height:1.8" id="newsModalDesc"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('newsModal')">বন্ধ করুন</button>
-      <a id="newsModalLink" href="#" target="_blank" class="btn btn-primary">🔗 পুরো নিউজ পড়ুন</a>
-    </div>
-  </div>
-</div>
-
 <script>
 /* ══════════════════════════════════════════════════════════
    NABS&FBK HOME OS v2.0 — Main Application Script
-   Two-Tier Password | Multi-Calendar | News+YouTube | Drive Upload
+   Two-Tier Password | Multi-Calendar | Drive Upload
    ══════════════════════════════════════════════════════════ */
 
 
@@ -1977,7 +1835,6 @@ let CONFIG = JSON.parse(localStorage.getItem(CFG_KEY) || 'null') || {
   adminPassHash:   hashPass('ADMIN2025'),      // Settings/delete lock
   resetEmail:      '',
   driveFolderId:   '',
-  youtubeApiKey:   '',
   email:           '',
   members:         ['NABS', 'FBK', 'Family'],
   goalIncome:      50000,
@@ -1998,7 +1855,6 @@ let CONFIG = JSON.parse(localStorage.getItem(CFG_KEY) || 'null') || {
   },
   projectCategories:  ['Electrical','Plumbing','Painting','Furniture','Garden','Tech','Maintenance'],
   docCategories:      ['সাধারণ নোট','Warranty','Bills','Appliances','Insurance','Documents','Others'],
-  newsCategories:     ['Technology','Business','Health','World','Bangladesh','Sports'],
   shoppingLists:      ['নিয়মিত বাজার','জরুরি কেনাকাটা','মাসিক বাজার'],
   customTabs:         []
 };
@@ -2011,9 +1867,9 @@ let APP_DATA = JSON.parse(localStorage.getItem(DATA_KEY) || 'null') || {
 let editingProjectId = null, editingTaskId = null, editingDocId = null;
 let editingEntryId = null, editingShopId = null, addCostToProject = null;
 let currentHistoryDate = new Date();
-let currentDocCatFilter = '', currentNewsCat = 'all';
+let currentDocCatFilter = '';
 let pendingSecureAction = null, pendingSecureLockType = null;
-let newsCache = [], forgotFlowType = 'app';
+let forgotFlowType = 'app';
 let managingCatType = null;
 let currentOTPCode = null;
 
@@ -2041,22 +1897,27 @@ function today() { return new Date().toISOString().split('T')[0]; }
 // ──────────────────────────────────────────
 // APP LOCK (Tier 1)
 // ──────────────────────────────────────────
+function markAppUnlocked() {
+  sessionStorage.setItem('nabsfbk_unlocked', '1');
+  localStorage.setItem('nabsfbk_last_activity', String(Date.now()));
+  document.getElementById('appLockScreen').classList.add('hidden');
+  document.getElementById('app').classList.remove('locked');
+  initApp();
+  restoreActiveTab();
+}
+
 function attemptAppUnlock() {
   const val = document.getElementById('appLockInput').value;
   if (!val) { showLockError('appLockError','পাসওয়ার্ড দিন'); return; }
   if (CONFIG.webAppUrl) {
     // Verify via backend
     verifyPassViaBackend(hashPass(val), 'app', () => {
-      document.getElementById('appLockScreen').classList.add('hidden');
-      document.getElementById('app').classList.remove('locked');
-      initApp();
+      markAppUnlocked();
     }, () => showLockError('appLockError','❌ পাসওয়ার্ড ভুল'));
   } else {
     // Local verification
     if (hashPass(val) === CONFIG.appPassHash) {
-      document.getElementById('appLockScreen').classList.add('hidden');
-      document.getElementById('app').classList.remove('locked');
-      initApp();
+      markAppUnlocked();
     } else {
       showLockError('appLockError','❌ পাসওয়ার্ড ভুল');
     }
@@ -2159,7 +2020,7 @@ function sendForgotOTP() {
   }
   currentOTPCode = Math.floor(100000 + Math.random() * 900000).toString();
   fetch(`${CONFIG.webAppUrl}?action=sendOTP`, {
-    method:'POST', headers:{'Content-Type':'application/json'},
+    method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
     body: JSON.stringify({ email: CONFIG.resetEmail, otp: currentOTPCode, type: forgotFlowType })
   }).then(r => r.json()).then(d => {
     if (d.status === 'ok') {
@@ -2182,15 +2043,32 @@ function confirmOTPReset() {
   const newPass = document.getElementById('newPassInput').value;
   if (otp !== currentOTPCode) { document.getElementById('forgotError').textContent = '❌ OTP কোড ভুল'; return; }
   if (!newPass || newPass.length < 4) { document.getElementById('forgotError').textContent = 'কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড দিন'; return; }
-  if (forgotFlowType === 'app') CONFIG.appPassHash   = hashPass(newPass);
-  else                          CONFIG.adminPassHash = hashPass(newPass);
+  const newHash = hashPass(newPass);
+  if (forgotFlowType === 'app') CONFIG.appPassHash   = newHash;
+  else                          CONFIG.adminPassHash = newHash;
   saveConfig();
+  pushPasswordToBackend(forgotFlowType, newHash);
   document.getElementById('forgotScreen').classList.add('hidden');
   toast('পাসওয়ার্ড পরিবর্তন হয়েছে! ✅');
   // Re-show app lock so they log in with new password
   document.getElementById('appLockInput').value = '';
   document.getElementById('appLockScreen').classList.remove('hidden');
   document.getElementById('app').classList.add('locked');
+}
+
+/**
+ * Pushes a new password hash to the backend (Settings sheet) so the
+ * server-side check (used whenever CONFIG.webAppUrl is set) stays in
+ * sync with whatever the user just changed inside the app.
+ * FIXED: previously password changes only updated the local CONFIG,
+ * so the backend kept accepting only the OLD password forever.
+ */
+function pushPasswordToBackend(type, newHash) {
+  if (!CONFIG.webAppUrl) return;
+  fetch(`${CONFIG.webAppUrl}?action=updatePassword`,{
+    method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({ type, newHash })
+  }).catch(()=>{ toast('পাসওয়ার্ড লোকালি বদলেছে কিন্তু backend sync হয়নি — Internet চেক করুন','warning'); });
 }
 
 // ──────────────────────────────────────────
@@ -2224,10 +2102,41 @@ function verifyPassViaBackend(hash, type, onOk, onFail) {
 
 // ──────────────────────────────────────────
 // MULTI-CALENDAR HEADER
+// FIXED: previously "headerBangla" never actually converted to the
+// Bengali calendar (Bangabda) — it just showed the Gregorian date
+// with English digits mislabeled as "Bangla". Hijri months were in
+// English. Time had no seconds. All three are rebuilt below.
 // ──────────────────────────────────────────
-const BN_MONTHS = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
-const BN_DAYS   = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
-const HIJRI_MONTHS = ['Muharram','Safar','Rabi I','Rabi II','Jumada I','Jumada II','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'];
+const EN_DAYS_FULL   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const EN_MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const BN_CAL_MONTHS  = ['বৈশাখ','জ্যৈষ্ঠ','আষাঢ়','শ্রাবণ','ভাদ্র','আশ্বিন','কার্তিক','অগ্রহায়ণ','পৌষ','মাঘ','ফাল্গুন','চৈত্র'];
+const HIJRI_MONTHS_BN = ['মহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'];
+
+function toBnDigits(n) {
+  const bn = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+  return String(n).replace(/[0-9]/g, d => bn[d]);
+}
+function isGregLeap(y) { return (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0); }
+
+/**
+ * Converts a Gregorian date to the modern Bangladeshi Bangla calendar
+ * (Bangabda), using the fixed Poyla Boishakh = April 14 rule adopted
+ * in the 2019 government reform. Approximation, accurate to ±1 day —
+ * same accuracy level as the existing Hijri conversion below.
+ */
+function toBanglaCalendar(date) {
+  const Y = date.getFullYear();
+  const newYearThisYear = new Date(Y, 3, 14);
+  let bYear, refYear, startOfYear;
+  if (date >= newYearThisYear) { bYear = Y - 593; refYear = Y;     startOfYear = newYearThisYear; }
+  else                          { bYear = Y - 594; refYear = Y - 1; startOfYear = new Date(Y - 1, 3, 14); }
+  const falgunLeap = isGregLeap(refYear + 1);
+  const monthLengths = [31,31,31,31,31,30,30,30,30,30, falgunLeap?31:30, 30];
+  let daysElapsed = Math.floor((date - startOfYear) / 86400000);
+  let m = 0;
+  while (m < 11 && daysElapsed >= monthLengths[m]) { daysElapsed -= monthLengths[m]; m++; }
+  return { day: daysElapsed + 1, month: m, year: bYear };
+}
 
 // Approximate Hijri conversion (±1 day accuracy, sufficient for display)
 function toHijri(date) {
@@ -2245,15 +2154,32 @@ function toHijri(date) {
   return { day, month: month - 1, year };
 }
 
+function formatTime12(date) {
+  let h = date.getHours(); const m = date.getMinutes(); const s = date.getSeconds();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12; if (h === 0) h = 12;
+  const pad = x => String(x).padStart(2,'0');
+  return `${pad(h)}:${pad(m)}:${pad(s)} ${ampm}`;
+}
+
 function updateClock() {
   const now = new Date();
-  const greg = `${BN_DAYS[now.getDay()]}, ${now.getDate()} ${BN_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+
+  // English Gregorian date — English day/month names, English digits
+  const greg = `${EN_DAYS_FULL[now.getDay()]}, ${now.getDate()} ${EN_MONTHS_FULL[now.getMonth()]} ${now.getFullYear()}`;
+
+  // Real Bangla calendar (Bangabda) date — Bangla digits + Bangla month name
+  const bn = toBanglaCalendar(now);
+  const banglaStr = `${toBnDigits(bn.day)} ${BN_CAL_MONTHS[bn.month]}, ${toBnDigits(bn.year)} বঙ্গাব্দ`;
+
+  // Hijri date — Bangla digits + Bangla month name
   const h = toHijri(now);
-  const hijri = `${h.day} ${HIJRI_MONTHS[h.month]} ${h.year} AH`;
+  const hijriStr = `${toBnDigits(h.day)} ${HIJRI_MONTHS_BN[h.month]} ${toBnDigits(h.year)} হিজরি`;
+
   document.getElementById('headerGreg').textContent    = greg;
-  document.getElementById('headerBangla').textContent  = `EN ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
-  document.getElementById('headerHijri').textContent   = hijri;
-  document.getElementById('headerTime').textContent    = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('headerBangla').textContent  = banglaStr;
+  document.getElementById('headerHijri').textContent   = hijriStr;
+  document.getElementById('headerTime').textContent    = formatTime12(now);
 }
 setInterval(updateClock, 1000);
 
@@ -2281,6 +2207,7 @@ function switchTab(tabId) {
     return;
   }
   _doSwitchTab(tabId);
+  localStorage.setItem('nabsfbk_active_tab', tabId);
   if (tabId === 'dashboard')  renderDashboard();
   if (tabId === 'finance')    renderFinance();
   if (tabId === 'history')    renderHistory();
@@ -2289,7 +2216,13 @@ function switchTab(tabId) {
   if (tabId === 'shopping')   renderShopping();
   if (tabId === 'docs')       renderDocs();
   if (tabId === 'entry')      { updateEntryCategories(); setEntryDefaultDate(); renderRecentEntries(); }
-  if (tabId === 'news')       renderNews();
+}
+
+function restoreActiveTab() {
+  const saved = localStorage.getItem('nabsfbk_active_tab');
+  if (saved && saved !== 'settings' && document.getElementById(`tab-${saved}`)) {
+    switchTab(saved);
+  }
 }
 
 function _doSwitchTab(tabId) {
@@ -2530,7 +2463,7 @@ function checkBudgetAlert() {
   const pct = CONFIG.goalExpense ? Math.round(exp/CONFIG.goalExpense*100) : 0;
   if (CONFIG.toggleBudget && pct >= CONFIG.alertThreshold && CONFIG.webAppUrl && CONFIG.email) {
     fetch(`${CONFIG.webAppUrl}?action=budgetAlert`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
+      method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
       body: JSON.stringify({ email:CONFIG.email, pct, spent:exp, budget:CONFIG.goalExpense })
     }).catch(()=>{});
   }
@@ -3156,7 +3089,7 @@ function prepareDocUpload(file) {
 
 function clearDocFile() { docFileToUpload=null; document.getElementById('docFilePreviewArea').innerHTML=''; document.getElementById('docFileInput').value=''; }
 
-async function uploadDocToDrive(file) {
+async function uploadDocToDrive(file, category) {
   if (!CONFIG.webAppUrl || !CONFIG.driveFolderId) {
     toast('Apps Script URL এবং Drive Folder ID সেট করুন','warning'); return null;
   }
@@ -3174,8 +3107,8 @@ async function uploadDocToDrive(file) {
   let p=0; const interval=setInterval(()=>{p=Math.min(p+20,80);fill.style.width=p+'%';pct.textContent=p+'%';},200);
   try {
     const resp=await fetch(`${CONFIG.webAppUrl}?action=uploadFile`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({fileName:file.name,mimeType:file.type,base64,folderId:CONFIG.driveFolderId})
+      method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({fileName:file.name,mimeType:file.type,base64,folderId:CONFIG.driveFolderId,category:category||'Others'})
     });
     const data=await resp.json();
     clearInterval(interval); fill.style.width='100%'; pct.textContent='100%';
@@ -3187,11 +3120,12 @@ async function saveDoc() {
   const title=document.getElementById('dmTitle').value.trim();
   const content=document.getElementById('dmContent').value.trim();
   if(!title||!content){toast('শিরোনাম ও বিষয়বস্তু দিন','error');return;}
+  const category=document.getElementById('dmCategory').value;
   let driveFileId=editingDocId?(APP_DATA.docs.find(d=>d.id===editingDocId)?.driveFileId||null):null;
-  if(docFileToUpload) driveFileId=await uploadDocToDrive(docFileToUpload);
+  if(docFileToUpload) driveFileId=await uploadDocToDrive(docFileToUpload, category);
   const doc={
     id:editingDocId||uid(),title,
-    category:document.getElementById('dmCategory').value,
+    category,
     type:document.getElementById('dmType').value,
     tags:document.getElementById('dmTags').value.split(',').map(t=>t.trim()).filter(Boolean),
     content,driveFileId,
@@ -3202,12 +3136,26 @@ async function saveDoc() {
   else APP_DATA.docs.unshift(doc);
   editingDocId=null; docFileToUpload=null;
   saveData(); closeModal('docModal'); renderDocs(); toast('Document সংরক্ষণ হয়েছে!');
+  // Sync this document's metadata to the Documents sheet (previously
+  // never happened — only the raw file went to Drive with no record).
+  if (CONFIG.webAppUrl) {
+    fetch(`${CONFIG.webAppUrl}?action=saveDoc`,{
+      method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({ doc })
+    }).catch(()=>{ toast('Document লোকালি সেভ হয়েছে, কিন্তু Sheet sync হয়নি','warning'); });
+  }
 }
 
 function deleteDoc(id) {
   secureConfirm('এই document মুছবেন?',()=>{
     APP_DATA.docs=APP_DATA.docs.filter(d=>d.id!==id);
     saveData();renderDocs();toast('Document মুছে গেছে','warning');
+    if (CONFIG.webAppUrl) {
+      fetch(`${CONFIG.webAppUrl}?action=deleteDoc`,{
+        method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({ id })
+      }).catch(()=>{});
+    }
   });
 }
 
@@ -3251,16 +3199,16 @@ function renderDocsList(docs) {
   document.getElementById('docsList').innerHTML=docs.length?docs.map(d=>`
     <div class="doc-card">
       <div class="doc-header">
-        <div class="doc-title"><span class="doc-type-icon">${typeI[d.type]||'📁'}</span>${d.title}</div>
+        <div class="doc-title" style="cursor:pointer" onclick="previewDoc('${d.id}')"><span class="doc-type-icon">${typeI[d.type]||'📁'}</span>${d.title}</div>
         <div style="display:flex;gap:4px">
-          ${d.driveFileId?`<a class="btn-icon" href="https://drive.google.com/file/d/${d.driveFileId}/view" target="_blank" title="Drive-এ দেখুন">🔗</a>`:''}
+          <button class="btn-icon" onclick="previewDoc('${d.id}')" title="Preview / Download / Print">👁️</button>
           <button class="btn-icon" onclick="printDoc('${d.id}')" title="Print">🖨️</button>
           <button class="btn-icon" onclick="openDocModal('${d.id}')">✏️</button>
           <button class="btn-icon danger" onclick="deleteDoc('${d.id}')">🗑</button>
         </div>
       </div>
-      <div class="doc-body">${d.content.length>200?d.content.slice(0,200)+'…':d.content}</div>
-      ${d.driveFileName?`<div class="doc-file-preview"><span class="file-icon">📎</span><div class="file-info"><div class="file-name">${d.driveFileName}</div><div class="file-meta">Google Drive-এ সংরক্ষিত</div></div></div>`:''}
+      <div class="doc-body" style="cursor:pointer" onclick="previewDoc('${d.id}')">${d.content.length>200?d.content.slice(0,200)+'…':d.content}</div>
+      ${d.driveFileName?`<div class="doc-file-preview" style="cursor:pointer" onclick="previewDoc('${d.id}')"><span class="file-icon">📎</span><div class="file-info"><div class="file-name">${d.driveFileName}</div><div class="file-meta">Google Drive-এ সংরক্ষিত — দেখতে ক্লিক করুন</div></div></div>`:''}
       <div class="doc-footer">
         <span class="badge badge-sil">${d.category}</span>
         ${(d.tags||[]).map(t=>`<span class="badge badge-ind" style="font-size:10px">${t}</span>`).join('')}
@@ -3268,6 +3216,47 @@ function renderDocsList(docs) {
       </div>
     </div>`).join(''):
     '<div class="empty-state"><div class="empty-icon">📄</div><h3>কোনো document নেই</h3><p>নতুন document বা note যোগ করো</p></div>';
+}
+
+/**
+ * Opens the Document Preview modal: embeds the Google Drive file
+ * (if one is attached) via Drive's inline preview iframe, shows the
+ * text content, and offers Download + Print buttons.
+ * FIXED: previously clicking a document did nothing at all — the
+ * only option was a small 🔗 icon that just opened Drive in a new
+ * tab with no download/print integration in the app.
+ */
+let _previewDocId = null;
+function previewDoc(id) {
+  const d = APP_DATA.docs.find(x => x.id === id);
+  if (!d) return;
+  _previewDocId = id;
+  document.getElementById('docPreviewTitle').textContent = '📄 ' + d.title;
+  document.getElementById('docPreviewMeta').textContent = `${d.category} · ${new Date(d.updatedAt).toLocaleDateString()}`;
+  document.getElementById('docPreviewContent').textContent = d.content || '';
+
+  const fileArea   = document.getElementById('docPreviewFileArea');
+  const iframe      = document.getElementById('docPreviewIframe');
+  const noFile      = document.getElementById('docPreviewNoFile');
+  const downloadBtn = document.getElementById('docPreviewDownloadBtn');
+
+  if (d.driveFileId) {
+    iframe.src = `https://drive.google.com/file/d/${d.driveFileId}/preview`;
+    fileArea.style.display = 'block';
+    noFile.style.display   = 'none';
+    downloadBtn.href = `https://drive.google.com/uc?export=download&id=${d.driveFileId}`;
+    downloadBtn.style.display = 'inline-flex';
+  } else {
+    iframe.src = '';
+    fileArea.style.display = 'none';
+    noFile.style.display   = 'block';
+    downloadBtn.style.display = 'none';
+  }
+  openModal('docPreviewModal');
+}
+
+function printCurrentPreviewDoc() {
+  if (_previewDocId) printDoc(_previewDocId);
 }
 
 function openManageDocCategoriesModal() {
@@ -3290,129 +3279,6 @@ function removeDocCategory(i) {
   secureConfirm(`"${CONFIG.docCategories[i]}" ক্যাটাগরি মুছবেন?`,()=>{
     CONFIG.docCategories.splice(i,1); saveConfig(); renderDocCatManage(); renderDocs();
   });
-}
-
-// ──────────────────────────────────────────
-// NEWS TAB
-// ──────────────────────────────────────────
-async function refreshNews() {
-  const btn=document.getElementById('newsRefreshBtn');
-  btn.classList.add('loading');
-  newsCache=[];
-  // Use RSS2JSON proxy for CORS-free RSS reading
-  const feeds = [
-    {url:'https://feeds.bbci.co.uk/news/rss.xml', source:'BBC News', type:'intl'},
-    {url:'https://feeds.reuters.com/reuters/topNews', source:'Reuters', type:'intl'},
-    {url:'https://www.prothomalo.com/feed', source:'Prothom Alo', type:'bd'}
-  ];
-  const proxy='https://api.rss2json.com/v1/api.json?rss_url=';
-  for (const feed of feeds) {
-    try {
-      const resp=await fetch(`${proxy}${encodeURIComponent(feed.url)}&count=6`);
-      const data=await resp.json();
-      if(data.items) {
-        data.items.forEach(item=>{
-          newsCache.push({
-            title:item.title, link:item.link, desc:item.description?.replace(/<[^>]+>/g,'')||'',
-            pubDate:item.pubDate, thumbnail:item.thumbnail||item.enclosure?.url||'',
-            source:feed.source, type:feed.type
-          });
-        });
-      }
-    } catch(e) { console.warn('Feed error:', feed.source); }
-  }
-  renderNewsGrid();
-  if(CONFIG.youtubeApiKey) await fetchYouTube();
-  btn.classList.remove('loading');
-  if(!newsCache.length) toast('নিউজ লোড করা যায়নি। ইন্টারনেট চেক করুন।','error');
-  else toast(`${newsCache.length}টি নিউজ লোড হয়েছে!`);
-}
-
-function renderNewsGrid() {
-  const intl=newsCache.filter(n=>n.type==='intl').slice(0,9);
-  const bd=newsCache.filter(n=>n.type==='bd').slice(0,9);
-  const renderGrid=(items, containerId) => {
-    const div=document.getElementById(containerId);
-    div.innerHTML=items.length?items.map(n=>`
-      <div class="news-card" onclick="openNewsModal(${JSON.stringify(n).replace(/'/g,'&#39;')})">
-        <div class="news-thumb">
-          ${n.thumbnail?`<img src="${n.thumbnail}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy"><div class="news-thumb-fallback" style="display:none">📰</div>`:`<div class="news-thumb-fallback">📰</div>`}
-          <div class="news-source-badge">${n.source}</div>
-        </div>
-        <div class="news-card-body">
-          <div class="news-card-title">${n.title}</div>
-          <div class="news-card-meta"><span>${timeAgo(n.pubDate)}</span></div>
-        </div>
-      </div>`).join(''):`<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📰</div><p>Refresh চাপুন নিউজ লোড করতে</p></div>`;
-  };
-  renderGrid(intl,'newsGridIntl');
-  renderGrid(bd,'newsGridBD');
-}
-
-function openNewsModal(n) {
-  if(typeof n==='string') n=JSON.parse(n);
-  document.getElementById('newsModalTitle').textContent=n.title;
-  document.getElementById('newsModalMeta').textContent=`${n.source} · ${timeAgo(n.pubDate)}`;
-  document.getElementById('newsModalDesc').textContent=n.desc||'বিস্তারিত পড়তে নিচের লিংকে যান।';
-  document.getElementById('newsModalLink').href=n.link;
-  openModal('newsModal');
-}
-
-function timeAgo(dateStr) {
-  if(!dateStr) return '';
-  const diff=(Date.now()-new Date(dateStr).getTime())/1000;
-  if(diff<3600) return `${Math.floor(diff/60)} মিনিট আগে`;
-  if(diff<86400) return `${Math.floor(diff/3600)} ঘন্টা আগে`;
-  return `${Math.floor(diff/86400)} দিন আগে`;
-}
-
-function setNewsCategory(cat,btn) {
-  currentNewsCat=cat;
-  document.querySelectorAll('.news-pill').forEach(p=>p.classList.toggle('active',p.dataset.cat===cat));
-}
-
-function renderNews() {
-  // Build category pills from config
-  const pillsDiv=document.getElementById('newsCatPills');
-  pillsDiv.innerHTML=`<div class="news-pill active" data-cat="all" onclick="setNewsCategory('all',this)">🌐 সব</div>`+
-    CONFIG.newsCategories.map(c=>`<div class="news-pill" data-cat="${c}" onclick="setNewsCategory('${c}',this)">${c}</div>`).join('');
-  if(newsCache.length) renderNewsGrid();
-}
-
-async function fetchYouTube() {
-  if(!CONFIG.youtubeApiKey) return;
-  const topics = CONFIG.newsCategories.join('|');
-  const query  = encodeURIComponent(topics + ' news today');
-  try {
-    const resp=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&order=date&maxResults=8&key=${CONFIG.youtubeApiKey}`);
-    const data=await resp.json();
-    if(data.items) {
-      document.getElementById('ytGrid').innerHTML=data.items.map(v=>`
-        <div class="yt-card" onclick="window.open('https://www.youtube.com/watch?v=${v.id.videoId}','_blank')">
-          <div class="yt-thumb"><img src="${v.snippet.thumbnails.medium.url}" alt="" loading="lazy"><div class="yt-play-icon">▶</div></div>
-          <div class="yt-card-body">
-            <div class="yt-card-title">${v.snippet.title}</div>
-            <div class="yt-card-channel">${v.snippet.channelTitle}</div>
-          </div>
-        </div>`).join('');
-    }
-  } catch(e) { console.warn('YouTube fetch error'); }
-}
-
-// News category management (in Settings)
-function renderNewsCatManage() {
-  document.getElementById('newsCatManageList').innerHTML=CONFIG.newsCategories.map((c,i)=>`
-    <div class="manage-chip"><span>${c}</span><div class="mc-actions"><button class="del" onclick="removeNewsCategory(${i})">✕</button></div></div>`).join('');
-}
-
-function addNewsCategory() {
-  const val=document.getElementById('newNewsCat').value.trim(); if(!val) return;
-  CONFIG.newsCategories.push(val); document.getElementById('newNewsCat').value='';
-  saveConfig(); renderNewsCatManage(); toast('News category যোগ হয়েছে!');
-}
-
-function removeNewsCategory(i) {
-  CONFIG.newsCategories.splice(i,1); saveConfig(); renderNewsCatManage();
 }
 
 // ──────────────────────────────────────────
@@ -3492,7 +3358,6 @@ function renderSettings() {
   document.getElementById('settingsEmail').value     = CONFIG.email||'';
   document.getElementById('resetEmail').value        = CONFIG.resetEmail||'';
   document.getElementById('driveFolderId').value     = CONFIG.driveFolderId||'';
-  document.getElementById('youtubeApiKey').value     = CONFIG.youtubeApiKey||'';
   document.getElementById('goalIncome').value        = CONFIG.goalIncome||'';
   document.getElementById('goalExpense').value       = CONFIG.goalExpense||'';
   document.getElementById('goalSavingPct').value     = CONFIG.goalSavingPct||'';
@@ -3512,7 +3377,6 @@ function renderSettings() {
   renderCatList('expense','expenseCatList');
   renderCatList('income','incomeCatList');
   renderCatList('savings','savingsCatList');
-  renderNewsCatManage();
   renderCustomTabsList();
   // Populate member selects everywhere
   ['entryMember','tmMember'].forEach(id=>{
@@ -3522,13 +3386,30 @@ function renderSettings() {
 }
 
 function updateBackendStatus() {
-  const online=!!CONFIG.webAppUrl;
-  ['settingsStatusDot','statusDot'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.className=`status-dot ${online?'online':'offline'}`;
-  });
-  const stxt=document.getElementById('settingsStatusText');
-  if(stxt) stxt.textContent=online?'Connected':'Not configured';
+  const dots = ['settingsStatusDot','statusDot'].map(id=>document.getElementById(id)).filter(Boolean);
+  const stxt = document.getElementById('settingsStatusText');
+  if (!CONFIG.webAppUrl) {
+    dots.forEach(el=>el.className='status-dot offline');
+    if (stxt) stxt.textContent = 'Not configured';
+    return;
+  }
+  dots.forEach(el=>el.className='status-dot syncing');
+  if (stxt) stxt.textContent = 'Checking...';
+  fetch(CONFIG.webAppUrl + '?action=ping')
+    .then(r => r.json())
+    .then(d => {
+      const ok = d && d.status === 'ok';
+      dots.forEach(el=>el.className = `status-dot ${ok ? 'online' : 'offline'}`);
+      if (stxt) stxt.textContent = ok ? 'Connected' : 'Connection failed';
+    })
+    .catch(() => {
+      dots.forEach(el=>el.className='status-dot offline');
+      if (stxt) stxt.textContent = 'Connection failed';
+    });
 }
+// Real-time connection check every 45s so the header dot always reflects
+// actual reachability, not just "a URL happens to be saved".
+setInterval(updateBackendStatus, 45000);
 
 function saveWebAppUrl() { CONFIG.webAppUrl=document.getElementById('settingsWebAppUrl').value.trim(); saveConfig(); updateBackendStatus(); toast('URL সংরক্ষণ হয়েছে!'); }
 function testConnection() {
@@ -3558,14 +3439,10 @@ function saveEmailSettings() {
   // Push schedule to backend
   if(CONFIG.webAppUrl) {
     fetch(`${CONFIG.webAppUrl}?action=updateSchedule`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
+      method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
       body:JSON.stringify({weeklyDay:CONFIG.weeklyDay,weeklyTime:CONFIG.weeklyTime,monthlyDate:CONFIG.monthlyDate,monthlyTime:CONFIG.monthlyTime,email:CONFIG.email,toggleWeekly:CONFIG.toggleWeekly,toggleMonthly:CONFIG.toggleMonthly})
     }).catch(()=>{});
   }
-}
-function saveNewsSettings() {
-  CONFIG.youtubeApiKey=document.getElementById('youtubeApiKey').value.trim();
-  saveConfig(); toast('News settings সংরক্ষণ হয়েছে!');
 }
 function toggleSetting(key) {
   const k='toggle'+key.charAt(0).toUpperCase()+key.slice(1);
@@ -3578,13 +3455,22 @@ function changePasswords() {
   const newApp =document.getElementById('newAppPass').value;
   const newAdmin=document.getElementById('newAdminPass').value;
   if(!curPass){toast('বর্তমান Admin পাসওয়ার্ড দিন','error');return;}
-  if(hashPass(curPass)!==CONFIG.adminPassHash){toast('বর্তমান Admin পাসওয়ার্ড ভুল','error');return;}
-  if(newApp.length>=4)  CONFIG.appPassHash  =hashPass(newApp);
-  if(newAdmin.length>=4) CONFIG.adminPassHash=hashPass(newAdmin);
-  if(!newApp&&!newAdmin){toast('অন্তত একটি নতুন পাসওয়ার্ড দিন','warning');return;}
-  saveConfig();
-  ['curAdminPass','newAppPass','newAdminPass'].forEach(id=>document.getElementById(id).value='');
-  toast('পাসওয়ার্ড আপডেট হয়েছে! ✅');
+  if(!newApp && !newAdmin){toast('অন্তত একটি নতুন পাসওয়ার্ড দিন','warning');return;}
+
+  const doUpdate = () => {
+    if(newApp.length>=4)  { CONFIG.appPassHash  =hashPass(newApp);   pushPasswordToBackend('app', CONFIG.appPassHash); }
+    if(newAdmin.length>=4){ CONFIG.adminPassHash=hashPass(newAdmin); pushPasswordToBackend('admin', CONFIG.adminPassHash); }
+    saveConfig();
+    ['curAdminPass','newAppPass','newAdminPass'].forEach(id=>document.getElementById(id).value='');
+    toast('পাসওয়ার্ড আপডেট হয়েছে! ✅');
+  };
+
+  if (CONFIG.webAppUrl) {
+    verifyPassViaBackend(hashPass(curPass), 'admin', doUpdate, () => toast('বর্তমান Admin পাসওয়ার্ড ভুল','error'));
+  } else {
+    if(hashPass(curPass)!==CONFIG.adminPassHash){toast('বর্তমান Admin পাসওয়ার্ড ভুল','error');return;}
+    doUpdate();
+  }
 }
 
 function renderMemberList() {
@@ -3637,25 +3523,112 @@ function clearAllData() {
 }
 
 // ──────────────────────────────────────────
-// GOOGLE SHEETS SYNC
+// GOOGLE SHEETS SYNC (bidirectional)
+// FIXED: push used to send only entries + projects, so Tasks,
+// Shopping items, Project costs and Documents were never actually
+// saved to Google Sheets even though the backend had sheets for
+// them. Now everything is pushed. A "pull" step was also added
+// (previously the Sheet was write-only — no way to restore data
+// on a new device or after reinstalling).
 // ──────────────────────────────────────────
 function syncNow() {
   const btn=document.getElementById('syncBtn'); btn.classList.add('spinning');
   if(!CONFIG.webAppUrl){setTimeout(()=>btn.classList.remove('spinning'),800);toast('Settings-এ Apps Script URL দিন','warning');return;}
   fetch(`${CONFIG.webAppUrl}?action=sync`,{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({entries:APP_DATA.entries.slice(0,100),projects:APP_DATA.projects,tasks:APP_DATA.tasks})
+    method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({
+      entries:  APP_DATA.entries,
+      projects: APP_DATA.projects,
+      costs:    flattenProjectCosts(),
+      tasks:    APP_DATA.tasks,
+      shopping: APP_DATA.shopping || [],
+      docs:     APP_DATA.docs || []
+    })
   }).then(r=>r.json()).then(d=>{
     btn.classList.remove('spinning');
-    d.status==='ok'?toast('Google Sheets sync সফল! ✅'):toast('Sync-এ সমস্যা','error');
-  }).catch(()=>{btn.classList.remove('spinning');toast('Sync ব্যর্থ','error');});
+    if (d.status==='ok') { toast('Google Sheets sync সফল! ✅'); updateBackendStatus(); }
+    else { toast('Sync-এ সমস্যা: ' + (d.msg||'unknown'),'error'); }
+  }).catch((err)=>{
+    btn.classList.remove('spinning');
+    toast('Sync ব্যর্থ — ইন্টারনেট বা URL চেক করুন','error');
+    updateBackendStatus();
+  });
+}
+
+/**
+ * Pulls the latest data from Google Sheets and merges it into local
+ * storage. Called automatically after unlocking / on refresh, and
+ * whenever syncNow() is triggered manually, so data survives a new
+ * device, app reinstall, or direct edits made in the Sheet itself.
+ * Merge rule: newest wins per ID (based on which array is longer /
+ * has the ID) — local unsynced items are kept, remote items not seen
+ * locally are added.
+ */
+function pullDataFromSheets() {
+  if (!CONFIG.webAppUrl) return;
+  fetch(`${CONFIG.webAppUrl}?action=getData`)
+    .then(r => r.json())
+    .then(d => {
+      if (d.status !== 'ok') return;
+      mergeRemoteArray('entries',  d.entries);
+      mergeRemoteArray('projects', d.projects);
+      mergeRemoteCosts(d.costs);
+      mergeRemoteArray('tasks',    d.tasks);
+      mergeRemoteArray('shopping', d.shopping);
+      mergeRemoteArray('docs',     d.docs);
+      saveData();
+      renderDashboard();
+      updateBackendStatus();
+    })
+    .catch(()=>{ /* silent — offline is fine, local data still works */ });
+}
+
+/**
+ * Flattens each project's nested `costs` array into a single list
+ * with projectId references, for pushing to the Costs sheet.
+ */
+function flattenProjectCosts() {
+  const out = [];
+  (APP_DATA.projects || []).forEach(p => {
+    (p.costs || []).forEach(c => out.push({ id: c.id, projectId: p.id, name: c.name, amount: c.amount, date: c.date }));
+  });
+  return out;
+}
+
+/**
+ * Merges remote cost rows back into their matching project's
+ * nested `costs` array (costs are NOT a flat top-level list in
+ * this app — they live inside project.costs).
+ */
+function mergeRemoteCosts(remoteCosts) {
+  if (!remoteCosts || !Array.isArray(remoteCosts)) return;
+  remoteCosts.forEach(rc => {
+    const proj = (APP_DATA.projects || []).find(p => p.id === rc.projectId);
+    if (!proj) return;
+    if (!proj.costs) proj.costs = [];
+    if (!proj.costs.some(c => c.id === rc.id)) {
+      proj.costs.push({ id: rc.id, name: rc.name, amount: parseFloat(rc.amount)||0, date: rc.date });
+      proj.actualCost = proj.costs.reduce((s,c)=>s+c.amount,0);
+    }
+  });
+}
+
+function mergeRemoteArray(key, remoteArr) {
+  if (!remoteArr || !Array.isArray(remoteArr)) return;
+  if (!APP_DATA[key]) APP_DATA[key] = [];
+  const localIds = new Set(APP_DATA[key].map(x => x.id));
+  remoteArr.forEach(r => {
+    if (r.id && !localIds.has(r.id)) APP_DATA[key].push(r);
+  });
 }
 
 function syncEntryToSheets(entry) {
   if(!CONFIG.webAppUrl) return;
   fetch(`${CONFIG.webAppUrl}?action=addEntry`,{
-    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(entry)
-  }).catch(()=>{});
+    method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(entry)
+  }).then(r=>r.json()).then(d=>{
+    if (d.status !== 'ok') toast('এন্ট্রি লোকালি সেভ হয়েছে কিন্তু Sheet-এ sync হয়নি','warning');
+  }).catch(()=>{ toast('ইন্টারনেট নেই — এন্ট্রি লোকালি সেভ আছে, পরে sync হবে','warning'); });
 }
 
 // ──────────────────────────────────────────
@@ -3678,22 +3651,61 @@ function initApp() {
   CONFIG.customTabs.forEach(tab=>addCustomTabToDOM(tab));
   renderDashboard();
   renderRecentEntries();
+  pullDataFromSheets();
 }
 
-// Check if already unlocked (from same session - sessionStorage)
-if (sessionStorage.getItem('nabsfbk_unlocked') === '1') {
-  document.getElementById('appLockScreen').classList.add('hidden');
-  document.getElementById('app').classList.remove('locked');
-  initApp();
+// ──────────────────────────────────────────
+// SESSION / AUTO-LOCK (15 minutes of inactivity)
+// FIXED: previously there was a broken override here that re-checked
+// the password locally even when using backend login, so the
+// session-unlocked flag was basically never set correctly and the
+// app asked for the password again on every refresh. Now:
+//  - Successful unlock (see markAppUnlocked above) sets the flag.
+//  - A refresh keeps you logged in AND returns you to the same tab.
+//  - After 15 real minutes with no tap/click/keypress, it auto-locks.
+//  - Fully closing the app/tab clears sessionStorage automatically
+//    (that's normal browser behaviour), so it locks on next open too.
+// ──────────────────────────────────────────
+const LOCK_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes
+
+function lockAppNow() {
+  sessionStorage.removeItem('nabsfbk_unlocked');
+  document.getElementById('appLockScreen').classList.remove('hidden');
+  document.getElementById('app').classList.add('locked');
+  document.getElementById('appLockInput').value = '';
 }
-// When unlocked, mark session
-const _origUnlock = attemptAppUnlock;
-// Override to set session flag
-window.attemptAppUnlock = function() {
-  const val = document.getElementById('appLockInput').value;
-  if (hashPass(val) === CONFIG.appPassHash) sessionStorage.setItem('nabsfbk_unlocked','1');
-  _origUnlock();
-};
+
+function checkAutoLock() {
+  if (sessionStorage.getItem('nabsfbk_unlocked') !== '1') return;
+  const last = parseInt(localStorage.getItem('nabsfbk_last_activity') || '0', 10);
+  if (Date.now() - last > LOCK_TIMEOUT_MS) lockAppNow();
+}
+
+function markActivity() {
+  if (sessionStorage.getItem('nabsfbk_unlocked') === '1') {
+    localStorage.setItem('nabsfbk_last_activity', String(Date.now()));
+  }
+}
+['click','keydown','touchstart','scroll'].forEach(evt => {
+  document.addEventListener(evt, markActivity, { passive: true });
+});
+setInterval(checkAutoLock, 10000); // check every 10s
+
+// On page load / refresh: if still validly unlocked (and not timed out),
+// skip the lock screen, restore the tab the user was on, and refresh
+// data silently in the background — instead of forcing a fresh login.
+if (sessionStorage.getItem('nabsfbk_unlocked') === '1') {
+  const last = parseInt(localStorage.getItem('nabsfbk_last_activity') || '0', 10);
+  if (Date.now() - last > LOCK_TIMEOUT_MS) {
+    sessionStorage.removeItem('nabsfbk_unlocked');
+  } else {
+    document.getElementById('appLockScreen').classList.add('hidden');
+    document.getElementById('app').classList.remove('locked');
+    initApp();
+    restoreActiveTab();
+    localStorage.setItem('nabsfbk_last_activity', String(Date.now()));
+  }
+}
 
 // Service Worker
 if ('serviceWorker' in navigator) {

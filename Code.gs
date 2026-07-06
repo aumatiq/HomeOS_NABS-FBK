@@ -9,11 +9,10 @@
 // ─── CONFIGURATION (EDIT THESE BEFORE DEPLOY) ───────────
 const CONFIG = {
   SHEET_ID:         '1RLoBAewJ6GbgAm_NpF9i4ZDD3LKFsqVlbintntWgwaM',          // Google Sheets ID (from URL)
-  APP_PASS_HASH:    'fh4u6k',    // Run hashPass('NABSFBK2025') in console to get this
-  ADMIN_PASS_HASH:  '-ol2yc0',    // Run hashPass('ADMIN2025') to get this
+  APP_PASS_HASH:    'fh4u6k',    // Fallback ONLY — real password check now reads from Settings sheet first
+  ADMIN_PASS_HASH:  '-ol2yc0',    // Fallback ONLY — real password check now reads from Settings sheet first
   RESET_EMAIL:      '',          // Password reset OTP email
   REPORT_EMAIL:     '',          // Weekly/monthly report email
-  DRIVE_FOLDER_ID:  '',          // Master Drive folder ID for documents
   DRIVE_FOLDER_ID:  '1_wGbs0aMfmxEKgU6ev9mXgmchZe_9z_x',          // Master Drive folder ID for documents
   TIMEZONE:         'Asia/Dhaka'
 };
@@ -39,6 +38,7 @@ function doGet(e) {
   try {
     if (action === 'ping')        return jsonResp({ status: 'ok', ts: new Date().toISOString() });
     if (action === 'verifyPass')  return handleVerifyPass(e);
+    if (action === 'getData')     return handleGetData(e);
     if (action === 'sync')        return jsonResp({ status: 'ok', msg: 'Use POST for sync' });
     return jsonResp({ status: 'error', msg: 'Unknown GET action: ' + action });
   } catch(err) {
@@ -51,12 +51,15 @@ function doPost(e) {
   try { body = JSON.parse(e.postData.contents); } catch(ex) {}
   const action = e.parameter.action || body.action || '';
   try {
-    if (action === 'addEntry')      return handleAddEntry(body);
-    if (action === 'sync')          return handleSync(body);
-    if (action === 'sendOTP')       return handleSendOTP(body);
-    if (action === 'budgetAlert')   return handleBudgetAlert(body);
-    if (action === 'uploadFile')    return handleUploadFile(body);
+    if (action === 'addEntry')       return handleAddEntry(body);
+    if (action === 'sync')           return handleSync(body);
+    if (action === 'sendOTP')        return handleSendOTP(body);
+    if (action === 'budgetAlert')    return handleBudgetAlert(body);
+    if (action === 'uploadFile')     return handleUploadFile(body);
     if (action === 'updateSchedule') return handleUpdateSchedule(body);
+    if (action === 'updatePassword') return handleUpdatePassword(body);
+    if (action === 'saveDoc')        return handleSaveDoc(body);
+    if (action === 'deleteDoc')      return handleDeleteDoc(body);
     return jsonResp({ status: 'error', msg: 'Unknown POST action: ' + action });
   } catch(err) {
     return jsonResp({ status: 'error', msg: err.message });
@@ -70,12 +73,61 @@ function doPost(e) {
 /**
  * Verifies hashed password sent from frontend.
  * GET: ?action=verifyPass&hash=XXXX&type=app|admin
+ * IMPORTANT FIX: Previously this only checked the hardcoded CONFIG hash,
+ * so changing the password inside the app (Settings tab) never actually
+ * changed what the backend accepted. Now it checks the Settings sheet
+ * first (live value), and falls back to the CONFIG default only if the
+ * Settings sheet has no value yet (fresh install).
  */
 function handleVerifyPass(e) {
   const hash   = e.parameter.hash || '';
   const type   = e.parameter.type || 'app';
-  const stored = type === 'admin' ? CONFIG.ADMIN_PASS_HASH : CONFIG.APP_PASS_HASH;
+  const key    = type === 'admin' ? 'admin_pass_hash' : 'app_pass_hash';
+  const stored = getSettingValue(key) || (type === 'admin' ? CONFIG.ADMIN_PASS_HASH : CONFIG.APP_PASS_HASH);
   return jsonResp({ ok: hash === stored });
+}
+
+/**
+ * Updates the app-lock or admin-lock password hash.
+ * POST body: { type: 'app'|'admin', newHash: '...' }
+ * Called by the frontend whenever the user changes a password from
+ * Settings, so the backend and the app never go out of sync again.
+ */
+function handleUpdatePassword(body) {
+  const type = body.type === 'admin' ? 'admin' : 'app';
+  const key  = type === 'admin' ? 'admin_pass_hash' : 'app_pass_hash';
+  if (!body.newHash) return jsonResp({ status: 'error', msg: 'Missing newHash' });
+  setSettingValue(key, body.newHash);
+  return jsonResp({ status: 'ok', msg: 'Password updated' });
+}
+
+/**
+ * Reads a single Key/Value from the Settings sheet. Returns null if not found.
+ */
+function getSettingValue(key) {
+  const ss    = SpreadsheetApp.openById(CONFIG.SHEET_ID);
+  const sheet = getOrCreateSheet(ss, SHEETS.SETTINGS, ['Key','Value','UpdatedAt']);
+  const data  = sheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === key) return data[i][1];
+  }
+  return null;
+}
+
+/**
+ * Writes (upserts) a single Key/Value into the Settings sheet.
+ */
+function setSettingValue(key, value) {
+  const ss    = SpreadsheetApp.openById(CONFIG.SHEET_ID);
+  const sheet = getOrCreateSheet(ss, SHEETS.SETTINGS, ['Key','Value','UpdatedAt']);
+  const data  = sheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === key) {
+      sheet.getRange(i + 1, 2, 1, 2).setValues([[value, new Date()]]);
+      return;
+    }
+  }
+  sheet.appendRow([key, value, new Date()]);
 }
 
 // ══════════════════════════════════════════════════════════
@@ -164,45 +216,80 @@ function handleAddEntry(body) {
 
 // ══════════════════════════════════════════════════════════
 // FULL SYNC — Bulk write all data to sheets
+// (FIXED: previously only 'entries' and 'projects' were synced.
+//  Tasks, Shopping and ProjectCosts were silently never pushed
+//  to Google Sheets even though they exist as sheets.)
 // ══════════════════════════════════════════════════════════
 function handleSync(body) {
   const ss = SpreadsheetApp.openById(CONFIG.SHEET_ID);
 
-  // Sync entries
-  if (body.entries && body.entries.length) {
-    const eSheet = getOrCreateSheet(ss, SHEETS.ENTRIES, [
-      'ID','Date','Type','Category','Amount','Member','PaymentMethod','Note','CreatedAt'
-    ]);
-    // Clear existing data (keep header)
-    const lastRow = eSheet.getLastRow();
-    if (lastRow > 1) eSheet.getRange(2, 1, lastRow - 1, eSheet.getLastColumn()).clearContent();
-    const rows = body.entries.map(e => [
-      e.id||'', e.date||'', e.type||'', e.category||'',
-      parseFloat(e.amount)||0, e.member||'', e.payment||'', e.note||'', e.createdAt||''
-    ]);
-    eSheet.getRange(2, 1, rows.length, rows[0].length).setValues(rows);
-  }
+  syncArrayToSheet(ss, SHEETS.ENTRIES, ['ID','Date','Type','Category','Amount','Member','PaymentMethod','Note','CreatedAt'],
+    body.entries, e => [e.id||'', e.date||'', e.type||'', e.category||'', parseFloat(e.amount)||0, e.member||'', e.payment||'', e.note||'', e.createdAt||'']);
 
-  // Sync projects
-  if (body.projects && body.projects.length) {
-    const pSheet = getOrCreateSheet(ss, SHEETS.PROJECTS, [
-      'ID','Name','Category','Status','StartDate','EndDate','Budget','ActualCost','Priority','Notes','CreatedAt'
-    ]);
-    const lastRow = pSheet.getLastRow();
-    if (lastRow > 1) pSheet.getRange(2, 1, lastRow - 1, pSheet.getLastColumn()).clearContent();
-    const rows = body.projects.map(p => [
-      p.id||'', p.name||'', p.category||'', p.status||'',
-      p.startDate||'', p.endDate||'', p.budget||0, p.actualCost||0,
-      p.priority||'medium', p.notes||'', p.createdAt||''
-    ]);
-    pSheet.getRange(2, 1, rows.length, rows[0].length).setValues(rows);
-  }
+  syncArrayToSheet(ss, SHEETS.PROJECTS, ['ID','Name','Category','Status','StartDate','EndDate','Budget','ActualCost','Priority','Notes','CreatedAt'],
+    body.projects, p => [p.id||'', p.name||'', p.category||'', p.status||'', p.startDate||'', p.endDate||'', p.budget||0, p.actualCost||0, p.priority||'medium', p.notes||'', p.createdAt||'']);
 
-  // Log sync
+  syncArrayToSheet(ss, SHEETS.COSTS, ['ID','ProjectID','Name','Amount','Date'],
+    body.costs, c => [c.id||'', c.projectId||'', c.name||'', parseFloat(c.amount)||0, c.date||'']);
+
+  syncArrayToSheet(ss, SHEETS.TASKS, ['ID','Text','Due','Priority','Member','Category','Done','Notes','CreatedAt'],
+    body.tasks, t => [t.id||'', t.text||'', t.due||'', t.priority||'', t.member||'', t.category||'', t.done?'true':'false', t.notes||'', t.createdAt||'']);
+
+  syncArrayToSheet(ss, SHEETS.SHOPPING, ['ID','Name','Qty','Price','Category','List','Bought','Note'],
+    body.shopping, s => [s.id||'', s.name||'', s.qty||'', s.price||0, s.category||'', s.list||'', s.bought?'true':'false', s.note||'']);
+
+  syncArrayToSheet(ss, SHEETS.DOCS, ['ID','Title','Category','Type','Tags','Content','DriveFileId','DriveFileName','UpdatedAt'],
+    body.docs, d => [d.id||'', d.title||'', d.category||'', d.type||'', (d.tags||[]).join(','), d.content||'', d.driveFileId||'', d.driveFileName||'', d.updatedAt||'']);
+
   const logSheet = getOrCreateSheet(ss, SHEETS.SYNC_LOG, ['Timestamp','EntriesCount','Status']);
   logSheet.appendRow([new Date(), (body.entries||[]).length, 'ok']);
 
   return jsonResp({ status: 'ok', synced: new Date().toISOString() });
+}
+
+/**
+ * Helper: clears a sheet's data rows and rewrites them from an array,
+ * only touching the sheet if an array was actually sent (so partial
+ * syncs from the frontend never wipe data it didn't send).
+ */
+function syncArrayToSheet(ss, sheetName, headers, arr, rowMapper) {
+  if (!arr || !arr.length) return;
+  const sheet   = getOrCreateSheet(ss, sheetName, headers);
+  const lastRow = sheet.getLastRow();
+  if (lastRow > 1) sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).clearContent();
+  const rows = arr.map(rowMapper);
+  sheet.getRange(2, 1, rows.length, rows[0].length).setValues(rows);
+}
+
+// ══════════════════════════════════════════════════════════
+// PULL — Frontend calls this on load / manual refresh so data
+// is restored from Google Sheets (e.g. new device, reinstalled
+// app, or someone else on the family added something directly
+// in the Sheet). Previously there was NO way to pull data back —
+// only push existed, so the Sheet was write-only.
+// GET: ?action=getData
+// ══════════════════════════════════════════════════════════
+function handleGetData(e) {
+  const ss = SpreadsheetApp.openById(CONFIG.SHEET_ID);
+  return jsonResp({
+    status:   'ok',
+    entries:  sheetRowsToObjects(ss, SHEETS.ENTRIES,  ['id','date','type','category','amount','member','payment','note','createdAt']),
+    projects: sheetRowsToObjects(ss, SHEETS.PROJECTS, ['id','name','category','status','startDate','endDate','budget','actualCost','priority','notes','createdAt']),
+    costs:    sheetRowsToObjects(ss, SHEETS.COSTS,    ['id','projectId','name','amount','date']),
+    tasks:    sheetRowsToObjects(ss, SHEETS.TASKS,    ['id','text','due','priority','member','category','done','notes','createdAt']).map(t => ({...t, done: t.done === 'true' || t.done === true})),
+    shopping: sheetRowsToObjects(ss, SHEETS.SHOPPING, ['id','name','qty','price','category','list','bought','note']).map(s => ({...s, bought: s.bought === 'true' || s.bought === true})),
+    docs:     sheetRowsToObjects(ss, SHEETS.DOCS,     ['id','title','category','type','tags','content','driveFileId','driveFileName','updatedAt']).map(d => ({...d, tags: d.tags ? String(d.tags).split(',').filter(Boolean) : []})),
+    ts: new Date().toISOString()
+  });
+}
+
+function sheetRowsToObjects(ss, sheetName, keys) {
+  const rows = getSheetData(ss, sheetName);
+  return rows.map(row => {
+    const obj = {};
+    keys.forEach((k, i) => { obj[k] = row[i]; });
+    return obj;
+  });
 }
 
 // ══════════════════════════════════════════════════════════
@@ -251,24 +338,69 @@ function buildBudgetAlertHTML(pct, spent, budget) {
 
 // ══════════════════════════════════════════════════════════
 // FILE UPLOAD TO GOOGLE DRIVE
+// FIXED: now auto-creates a subfolder per document category
+// inside the master Drive folder, so files are organised
+// automatically (e.g. Master Folder/Warranty/, Master Folder/Bills/)
 // ══════════════════════════════════════════════════════════
 function handleUploadFile(body) {
-  const { fileName, mimeType, base64, folderId } = body;
+  const { fileName, mimeType, base64, folderId, category } = body;
   if (!fileName || !base64) return jsonResp({ status: 'error', msg: 'Missing file data' });
 
-  const targetFolderId = folderId || CONFIG.DRIVE_FOLDER_ID;
-  if (!targetFolderId) return jsonResp({ status: 'error', msg: 'Drive folder ID not configured' });
+  const masterFolderId = folderId || CONFIG.DRIVE_FOLDER_ID;
+  if (!masterFolderId) return jsonResp({ status: 'error', msg: 'Drive folder ID not configured' });
 
   try {
+    const targetFolder = category ? getOrCreateSubfolder(masterFolderId, category) : DriveApp.getFolderById(masterFolderId);
     const decoded  = Utilities.base64Decode(base64);
     const blob     = Utilities.newBlob(decoded, mimeType || 'application/octet-stream', fileName);
-    const folder   = DriveApp.getFolderById(targetFolderId);
-    const file     = folder.createFile(blob);
+    const file     = targetFolder.createFile(blob);
     file.setSharing(DriveApp.Access.DOMAIN_WITH_LINK, DriveApp.Permission.VIEW);
-    return jsonResp({ status: 'ok', fileId: file.getId(), fileName: file.getName(), url: file.getUrl() });
+    return jsonResp({ status: 'ok', fileId: file.getId(), fileName: file.getName(), url: file.getUrl(), folder: targetFolder.getName() });
   } catch(err) {
     return jsonResp({ status: 'error', msg: 'Drive upload failed: ' + err.message });
   }
+}
+
+/**
+ * Finds a subfolder by name inside a parent folder, creating it
+ * if it doesn't exist yet. Used to auto-organise Documents by category.
+ */
+function getOrCreateSubfolder(parentFolderId, subfolderName) {
+  const parent = DriveApp.getFolderById(parentFolderId);
+  const safeName = String(subfolderName).trim() || 'Others';
+  const existing = parent.getFoldersByName(safeName);
+  if (existing.hasNext()) return existing.next();
+  return parent.createFolder(safeName);
+}
+
+// ══════════════════════════════════════════════════════════
+// DOCUMENT METADATA — Save / Delete a single document row
+// FIXED: previously Document titles/notes/tags typed in the app
+// were NEVER sent to the Documents sheet at all (only the raw
+// uploaded file went to Drive, with no record in Sheets). Now
+// every save/delete keeps the Documents sheet in sync too.
+// ══════════════════════════════════════════════════════════
+function handleSaveDoc(body) {
+  const d = body.doc || {};
+  const ss    = SpreadsheetApp.openById(CONFIG.SHEET_ID);
+  const sheet = getOrCreateSheet(ss, SHEETS.DOCS, ['ID','Title','Category','Type','Tags','Content','DriveFileId','DriveFileName','UpdatedAt']);
+  const data  = sheet.getDataRange().getValues();
+  const row   = [d.id||'', d.title||'', d.category||'', d.type||'', (d.tags||[]).join(','), d.content||'', d.driveFileId||'', d.driveFileName||'', d.updatedAt||new Date().toISOString()];
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === d.id) { sheet.getRange(i + 1, 1, 1, row.length).setValues([row]); return jsonResp({ status: 'ok', id: d.id }); }
+  }
+  sheet.appendRow(row);
+  return jsonResp({ status: 'ok', id: d.id });
+}
+
+function handleDeleteDoc(body) {
+  const ss    = SpreadsheetApp.openById(CONFIG.SHEET_ID);
+  const sheet = getOrCreateSheet(ss, SHEETS.DOCS, ['ID','Title','Category','Type','Tags','Content','DriveFileId','DriveFileName','UpdatedAt']);
+  const data  = sheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === body.id) { sheet.deleteRow(i + 1); break; }
+  }
+  return jsonResp({ status: 'ok' });
 }
 
 // ══════════════════════════════════════════════════════════
